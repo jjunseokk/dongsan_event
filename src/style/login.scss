@@ -1,0 +1,55 @@
+.login-container {
+    width: 100vw;
+    height: 100vh;
+    background-color: beige;
+
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    .login-area {
+        width: 50%;
+        margin-top: 10px;
+        border: 1px solid red;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .form-area {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            .input-area {
+                width: 80%;
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+
+                div {
+                    .label {
+                        width: 20%;
+                        display: inline-block;
+                    }
+
+                    input {
+                        width: 70%;
+                        height: 30px;
+                        margin: 5px 0px;
+                    }
+                }
+            }
+
+            button {
+                width: 100px;
+                height: 70px;
+            }
+        }
+    }
+}
