@@ -10,50 +10,78 @@
     flex-direction: column;
 
     position: relative;
+
+    .warning{
+        width: 100%;
+        background-color:  red;
+        position: absolute;
+        top: 0;
+        color: white;
+    }
     .login-area {
-        width: 50%;
+        width: 30%;
         margin-top: 10px;
-        border: 1px solid red;
-        display: flex;
-        justify-content: center;
-        align-items: center;
 
         .form-area {
             width: 100%;
             height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+
 
             .input-area {
-                width: 80%;
+                width: 100%;
                 height: 100%;
                 display: flex;
                 justify-content: center;
                 align-items: center;
                 flex-direction: column;
 
-                div {
-                    .label {
-                        width: 20%;
+
+                label {
+                    width: 100%;
+                    position: relative;
+
+                    span {
+                        width: 70px;
                         display: inline-block;
                     }
+                }
 
-                    input {
-                        width: 70%;
-                        height: 30px;
-                        margin: 5px 0px;
+                input {
+                    width: 70%;
+                    height: 30px;
+                    margin: 5px 0px;
+                    background-color: transparent;
+                    border: none;
+                    border-bottom: 1px solid black;
+                    color: #595f63;
+                    outline: none;
+
+                    &:focus {
+                        animation: showInput 1s linear forwards;
+                    }
+                }
+
+                p {
+                    width: 100%;
+                    text-align: right;
+
+                    span {
+                        cursor: pointer;
                     }
                 }
             }
 
             button {
-                width: 100px;
-                height: 70px;
+                width: 100%;
+                height: 40px;
+                margin-top: 10px;
+                background-color: yellowgreen;
+                border: none;
             }
         }
     }
-    .join-modal{
+
+    .join-modal {
         width: 70%;
         height: 70%;
         background-color: white;
@@ -62,8 +90,65 @@
         left: 50%;
         transform: translate(-50%, -50%);
         display: none;
+
+        form {
+            width: 50%;
+
+
+            label {
+                width: 100%;
+                margin: 2px 0px;
+
+                p {
+                    width: 100px;
+                    text-align: left;
+                    margin: 5px 0px;
+                }
+
+                input {
+                    width: 100%;
+                    height: 30px;
+                }
+
+                span {
+                    font-size: 10px;
+                }
+            }
+
+            button {
+                width: 100%;
+                height: 30px;
+                margin-top: 20px;
+                border: none;
+                color: white;
+                background-position: left;
+                background-color: yellowgreen;
+                cursor: pointer;
+
+            }
+        }
     }
-    .join-modal-action{
-        display: block;
+
+    .join-modal-action {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .closeBtn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+        }
+    }
+}
+
+@keyframes showInput {
+    0% {
+        border-color: black;
+    }
+
+    100% {
+        border-bottom: 2px solid red;
     }
 }
