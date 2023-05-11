@@ -18,7 +18,14 @@ MongoClient.connect('mongodb+srv://manager:junseok12@dongsan.o1cilpf.mongodb.net
     });
 });
 
-app.use(express.static(path.join(__dirname, "build")));
+app.use(function(req, res, next) {
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
+    next();
+  });
+
+// app.use(express.static(path.join(__dirname, "build")));
 
 app.get("/*", (req, res) => {
     res.set({
@@ -26,8 +33,17 @@ app.get("/*", (req, res) => {
         Pragma: "no-cache",
         Date: Date.now()
     });
-    res.sendFile(path.join(__dirname, "build", "index.html"));
+    //  res.sendFile(path.join(__dirname, "build", "index.html"));
 });
+
+// //api로 데이터 받기
+// app.get('/api/login', (req, res)=>{
+//     console.log("connect!")
+//     db.collection('user').findOne({ name: loginName },function(err, result) {
+//         if (err) throw err;
+//         res.json({ success: result });
+//     });
+// })
 
 app.post("/join", (req, res) => {
     console.log("res", res)
@@ -111,15 +127,9 @@ app.post('/points', (req, res) => {
             db.collection("user").updateOne({name : `${loginName}`}, {$inc : {point : point}});
             console.log(req.body.points);
             console.log("네임", loginName);
+            res.json({ success: result });
         }
     })
 })
 
 
-// //api로 데이터 받기
-// app.get('/api/login', (req, res)=>{
-//     db.collection('user').find().toArray(function(err, result) {
-//         if (err) throw err;
-//         res.json(result);
-//     });
-// })

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Wheel } from 'react-custom-roulette'
+import { Wheel } from 'react-custom-roulette';
+import axios from "axios";
+import '../style/event.scss'
 
 const Event = () => {
     const data = [
@@ -19,23 +21,29 @@ const Event = () => {
     const [prizeNumber, setPrizeNumber] = useState(0);
     const [points, setPoints] = useState(0);
     const [result, setResult] = useState('');
+    const [totalPoint, setTotalPoint] = useState(0);
+    const [users, setUsers] = useState();
 
-    useEffect(()=>{
-        fetch("/points", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ points })
-        })
-            .then(response => response.json())
-            .then((data) => {
-                if (data.success) {
-                    console.log("성공");
-                } else {
-                    console.log("실패!");
-                }
-            })
-            .catch(error => console.error(error));
-    },[points])
+    useEffect(() => {
+        // 이벤트 결과를 서버에 저장하는 요청
+        if (points > 0) {
+            axios.post('/points', { points })
+                .then(response => {
+                    console.log(response.success);
+                })
+                .catch(error => console.error(error));
+        }
+    }, [points]);
+
+    // useEffect(() => {
+    //     //get request를 서버에 보내는 것
+    //     axios.get('/api/login') //엔드 포인트
+    //         //서버에서 보내오는 것을 콘솔창 출력
+    //         .then((data) => {
+    //             setUsers(data.success)
+    //             console.log(users)
+    //         })
+    // }, [])
 
     const handleSpinClick = () => {
         if (!mustSpin) {
@@ -43,19 +51,19 @@ const Event = () => {
             setPrizeNumber(newPrizeNumber);
             setMustSpin(true);
         }
-           
     };
 
     const handleStopSpinning = () => {
         const selectedOption = data[prizeNumber];
         const pointToAdd = selectedOption.score;
         setPoints(pointToAdd);
+        setTotalPoint(prevTotalPoint => prevTotalPoint + pointToAdd);
         setResult(`축하합니다! ${pointToAdd} 포인트를 획득하셨습니다.`);
         setMustSpin(false);
     };
 
     return (
-        <div>
+        <div className="event-container">
             <Wheel
                 mustStartSpinning={mustSpin}
                 prizeNumber={prizeNumber}
@@ -64,7 +72,7 @@ const Event = () => {
             />
             <button onClick={handleSpinClick}>SPIN</button>
             {result && <p>{result}</p>}
-            <p>현재 보유 포인트: {points + points}</p>
+            <p>현재 보유 포인트: {totalPoint}</p>
         </div>
     )
 }
