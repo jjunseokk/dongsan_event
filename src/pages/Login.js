@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Logo from '../image/dongsan.png';
 import '../style/login.scss';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faEyeSlash, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -12,12 +12,13 @@ const Login = () => {
     const [email, setEmail] = useState('');// ---------------회원가입 email 값 받기------------
     const [loginName, setLoginName] = useState(""); // --------------- 로그인 name 값 받기------------
     const [loginPassword, setLoginPassword] = useState(""); // ---------------로그인 password 값 받기------------
-    const [check, setCheck] = useState('');// ---------------비밀번호 확인------------
-    const [manager, setManager] = useState('');
+    const [check, setCheck] = useState('');// ---------------비밀번호 확인 값 받기------------
+    const [manager, setManager] = useState('');  //--------관리자 코드 값 받기---------
     let [changePW, setChangePW] = useState(true); // ----비밀번호와 비밀번호 확인 일치하는지..
-    let [showModal, setShowModal] = useState(false) // --------------- 모달창띄우기 ------------
-    const [users, setUsers] = useState([]);
+    let [showModal, setShowModal] = useState(false) // --------------- 회원가입 모달창띄우기 ------------
+    const [successJoin, setSuccessJoin] = useState(false); //----------회원가입 성공 모달-------
 
+    const [showPw, setShowPw] = useState(false); //-------로그인할 때 비밀번호 보이게 하는 눈버튼
     const navigate = useNavigate();
 
 
@@ -34,23 +35,35 @@ const Login = () => {
             })
                 .then(res => res.json())
                 .then((data) => {
-                    console.log(data);
+                    if (data.name === undefined) {
+                        alert('회원가입이 완료되었습니다.');
+                        setUserName('');
+                        setPassword('');
+                        setEmail('');
+                        setManager('');
+                        setCheck('');
+                        setShowModal(false)
+                    } else {
+                        alert(data.name)
+                    }
                 })
                 .catch((error) => {
                     if (error) {
                         console.log("error", error);
                     }
                 });
-        } else if (!validatePassword(password) || !validateEmail(email)) {
-        
+        } else if (!validatePassword(password)) {
+            alert('비밀번호는 최소 8자 이상, 대소문자와 특수문자가 들어가야합니다.');
+        } else if (!validateEmail(email)) {
+            alert("이메일 형식이 올바르지 않습니다.");
         }
+
         // 비밀번호가 일치한지 확인 후 state 변경
         if (password === check) {
             setChangePW(true)
         } else if (password !== check) {
             setChangePW(false);
         }
-
     }
 
     // --------로그인 시 DB 접근 후 DB에 일치하는 아이디와 비밀번호가 있다면 로그인 성공-----------
@@ -67,8 +80,9 @@ const Login = () => {
                 if (data.success) {
                     // 로그인 성공
                     console.log("성공");
+                    console.log(data)
                     // 로그인한 사용자 정보를 저장하고, 다른 페이지에서 사용할 수 있도록 처리할 수 있습니다.
-                    navigate(`/Event`)
+                    data.success.manager === 'dongsan!!' ? navigate('/Manager') : navigate(`/Event`);
                 } else {
                     // 로그인 실패
                     console.log("실패!");
@@ -76,17 +90,15 @@ const Login = () => {
                 }
             })
             .catch(error => console.error(error));
-    }
 
-    useEffect(()=>{
-        axios.get('http://localhost:3000/join')
-        .then((res)=>{
-            setUsers(...users,...res.data);
-            console.log(res.data);
-        }).catch(() => {
-            console.log("실패");
-          });
-    },[]);
+        // axios.get('/api/login')
+        // .then(response => {
+        //     setUsers({ data: response.data })
+        // })
+        // .catch(error => {
+        //     console.log(error);
+        // })
+    }
 
     // 이메일 정규식
     const validateEmail = (email) => {
@@ -112,9 +124,12 @@ const Login = () => {
                             <span>이름</span>
                             <input type="text" name="name" value={loginName} onChange={(e) => setLoginName(e.target.value)} />
                         </label>
-                        <label>
+                        <label style={{ position: 'relative' }}>
                             <span>비밀번호</span>
-                            <input type="password" name="password" value={loginPassword} onChange={(e) => setLoginPassword(e.target.value)} />
+                            <input type={showPw ? 'text' : "password"} name="password" value={loginPassword} onChange={(e) => setLoginPassword(e.target.value)} />
+                            <span style={{ position: 'absolute', top: '15px', right: -20, fontSize: 10, cursor: 'pointer' }} onClick={() => {
+                                setShowPw(!showPw);
+                            }}>{showPw ? <FontAwesomeIcon icon={faEye} /> : <FontAwesomeIcon icon={faEyeSlash} />}</span>
                         </label>
                         <button className="learn-more" type="submit">로그인</button>
                         <p><span style={{ fontSize: '2px' }} onClick={() => {
@@ -156,6 +171,16 @@ const Login = () => {
                     <button type="submit">회원가입</button>
                 </form>
             </div>
+
+            <div className={successJoin ? "success-modal-container success-modal-action" : "success-modal-container"}>
+                <div className="success-modal">
+                    <h3>회원가입이 완료되었습니다.</h3>
+                    <button onClick={() => {
+                        setSuccessJoin(false);
+                    }}>확인</button>
+                </div>
+            </div>
+
         </div>
     )
 }

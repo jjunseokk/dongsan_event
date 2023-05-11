@@ -4,7 +4,7 @@ const MongoClient = require('mongodb').MongoClient;
 const path = require("path");
 
 const app = express();
-const port = 3000;
+const port = 5000;
 app.use(bodyParser.json());
 
 let db;
@@ -30,7 +30,7 @@ app.get("/*", (req, res) => {
 });
 
 app.post("/join", (req, res) => {
-    console.log("res",res)
+    console.log("res", res)
     // user라는 collection에서 사용자가 입력하는 이름과 이메일 중 똑같은 데이터가 있다면 err메세지를 띄우고 DB에 추가하지 않는다.
     db.collection('user').findOne({ name: req.body.name }, function (err, result) {
         if (err) {
@@ -44,7 +44,7 @@ app.post("/join", (req, res) => {
                     console.log(err);
                     res.status(500).json({ error: '서버 에러가 발생했습니다.' });
                 } else if (result) {
-                    res.status(409).json({ email: '이미 존재하는 이메일입니다.' });
+                    res.status(409).json({ name: '이미 존재하는 이메일입니다.' });
                 } else {
                     // DB에 추가하는 코드
                     db.collection('counter').findOne({ name: 'count' }, function (err, result) {
@@ -54,7 +54,8 @@ app.post("/join", (req, res) => {
                             name: req.body.name,
                             email: req.body.email,
                             password: req.body.password,
-                            manager: req.body.manager
+                            manager: req.body.manager,
+                            point: 0
                         }, function (err, result) {
                             if (err) {
                                 console.log(err);
@@ -65,7 +66,7 @@ app.post("/join", (req, res) => {
                                         console.log(err);
                                         res.status(500).json({ error: '서버 에러가 발생했습니다.' });
                                     } else {
-                                        res.json({ success: req.body });
+                                        res.json({ success: result });
                                     }
                                 })
                             }
@@ -76,14 +77,15 @@ app.post("/join", (req, res) => {
         }
     });
 });
+let loginName;
 
 app.post("/login", (req, res) => {
     // 입력받은 아이디와 비밀번호
-    const { loginName, loginPassword } = req.body;
+    const { loginName: name, loginPassword: password } = req.body;
 
-    console.log(loginName, loginPassword);
+    console.log(name, password);
     // DB에서 입력받은 아이디와 비밀번호가 일치하는지 확인합니다.
-    db.collection("user").findOne({ name: loginName, password: loginPassword }, function (err, result) {
+    db.collection("user").findOne({ name, password }, function (err, result) {
         console.log(result)
         if (err) {
             console.log(err);
@@ -91,7 +93,33 @@ app.post("/login", (req, res) => {
         } else if (!result) {
             res.status(401).json({ error: "아이디 또는 비밀번호가 일치하지 않습니다." });
         } else {
-            res.json({ success: req.body });
+            loginName = name;
+            res.json({ success: result });
         }
     });
+
 });
+
+
+app.post('/points', (req, res) => {
+    db.collection("user").findOne({ name: loginName }, function (err, result) {
+        if (err) {
+            console.log(err);
+            res.status(500).json({ error: "서버 에러가 발생했습니다." });
+        } else{
+            let point = req.body.points
+            db.collection("user").updateOne({name : `${loginName}`}, {$inc : {point : point}});
+            console.log(req.body.points);
+            console.log("네임", loginName);
+        }
+    })
+})
+
+
+// //api로 데이터 받기
+// app.get('/api/login', (req, res)=>{
+//     db.collection('user').find().toArray(function(err, result) {
+//         if (err) throw err;
+//         res.json(result);
+//     });
+// })
