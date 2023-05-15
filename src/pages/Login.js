@@ -4,7 +4,6 @@ import '../style/login.scss';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
 const Login = () => {
     const [name, setUserName] = useState(""); // --------------- 회원가입 name 값 받기------------
@@ -64,6 +63,7 @@ const Login = () => {
         } else if (password !== check) {
             setChangePW(false);
         }
+        
     }
 
     // --------로그인 시 DB 접근 후 DB에 일치하는 아이디와 비밀번호가 있다면 로그인 성공-----------
@@ -132,7 +132,7 @@ const Login = () => {
                             }}>{showPw ? <FontAwesomeIcon icon={faEye} /> : <FontAwesomeIcon icon={faEyeSlash} />}</span>
                         </label>
                         <button className="learn-more" type="submit">로그인</button>
-                        <p><span style={{ fontSize: '2px' }} onClick={() => {
+                        <p><span onClick={() => {
                             setShowModal(!showModal);
                         }}>회원가입</span></p>
                     </div>
