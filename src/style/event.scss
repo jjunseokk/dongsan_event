@@ -1,39 +1,50 @@
-*{padding: 0; margin: 0; box-sizing: border-box;}
-body{
-    overflow: hidden;
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
 }
-.event-container{
+
+html {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    overflow: hidden;
+    padding: 0px;
+}
+
+.event-container {
     width: 100%;
     height: 100vh;
     margin: 0 auto;
     display: flex;
     font-size: 1em;
 
-    .event-rullet{
+    .event-rullet {
         width: 70%;
         display: flex;
         justify-content: center;
         align-items: center;
         flex-direction: column;
-        background-color: #D1EED4;
+        position: relative;
+        background: url(../image/effect.png) no-repeat;
+        background-color: #1471D8;
+        background-size: cover;
+        border-right: 10px solid #F9C200;
         position: relative;
 
-        .tree1, .tree2{
-            position: absolute;
-            &:first-child{
-                top: -90px;
-                left: -40px;
-            }
+        .title {
+            width: 30%;
         }
-        .tree2{
-            top: -50px;
-            right: -100px
-        }
-        .sc-gsTCUz{
-            width: 70%;
-            height: 70%;
+
+        .sc-gsTCUz {
+            width: 400px;
+            height: 400px;
             z-index: 2;
         }
+
+
         button {
             width: 100px;
             height: 30px;
@@ -44,16 +55,299 @@ body{
             width: 100px;
             height: 40px;
             cursor: pointer;
+            z-index: 2;
+            box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+        }
+
+        .man,
+        .girl {
+            position: absolute;
+        }
+
+        .man {
+            left: 0;
+            bottom: 0px;
+        }
+
+        .girl {
+            right: -15%;
+            bottom: 0;
+            z-index: 1;
         }
     }
-    .event-result{
+
+    .event-result {
         width: 30%;
         height: 100vh;
-        background-color: #144B21;
         position: relative;
-        p{
+        background-color: #1471D8;
+        padding: 40px 0px;
+        text-align: center;
+
+        p {
+            color: black;
+            font-size: 1em;
+            margin: 0 auto;
+        }
+
+        .talk1 {
+            width: 50%;
+            height: 105px;
+            padding: 5% 0%;
+            text-align: center;
+            background: url(../image/talk_1.png) no-repeat;
+            background-size: contain;
+        }
+
+        .talk2 {
+            width: 50%;
+            height: 105px;
+            padding: 6% 0%;
+            text-align: center;
+            background: url(../image/talk_2.png) no-repeat;
+            background-size: contain;
+        }
+
+        button {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translate(-50%);
+            width: 40%;
+            font-size: 30px;
+            border-radius: 20px;
+            border: none;
             color: white;
-            font-size: 2em;
+            background-color: yellowgreen;
+            z-index: 1;
+        }
+    }
+
+}
+
+
+@media screen and (max-width:479px) {
+    body {
+        overflow: auto;
+    }
+
+    .event-container {
+        width: 100vw;
+
+        display: block;
+        font-size: 1em;
+
+        .event-rullet {
+            width: 100%;
+            height: 70vh;
+            border-right: none;
+
+
+            .title {
+                width: 60%;
+                z-index: 1;
+            }
+
+            .text {
+                width: 90%;
+            }
+
+            .sc-gsTCUz {
+                width: 250px;
+                height: 250px;
+                z-index: 2;
+            }
+
+            .man {
+                width: 20%;
+            }
+
+            .girl {
+                width: 50%;
+                right: 0%;
+            }
+        }
+
+        .event-result {
+            width: 100%;
+            height: 350px;
+            text-align: center;
+
+            p {
+                color: black;
+                font-size: 1em;
+            }
+
+            .talk1 {
+                width: 200px;
+                height: 100px;
+                padding: 24px 0px;
+                background-image: url("../image/talk_1.png");
+                background-repeat: no-repeat;
+                background-position: center;
+            }
+
+            .talk2 {
+                width: 220px;
+                height: 100px;
+                padding: 25px 0px;
+                background-image: url("../image/talk_2.png");
+                background-repeat: no-repeat;
+                background-position: center;
+            }
+
+            button {
+                left: 50%;
+                transform: translate(-50%);
+            }
+        }
+    }
+
+}
+
+@media all and (min-width:480px) and (max-width:767px) {
+    body {
+        overflow: auto;
+    }
+
+    .event-container {
+        width: 100vw;
+
+        display: block;
+        font-size: 1em;
+
+        .event-rullet {
+            width: 100%;
+            height: 100vh;
+            border-right: none;
+
+            .title {
+                width: 60%;
+                z-index: 1;
+            }
+
+            .sc-gsTCUz {
+                width: 350px;
+                height: 350px;
+                z-index: 2;
+            }
+
+            .man {
+                width: 20%;
+            }
+
+            .girl {
+                width: 50%;
+                right: 0%;
+            }
+        }
+
+        .event-result {
+            width: 100%;
+            height: 350px;
+            text-align: center;
+
+            p {
+                color: black;
+                font-size: 1em;
+            }
+
+            .talk1 {
+                width: 200px;
+                height: 100px;
+                padding: 24px 0px;
+                background-image: url("../image/talk_1.png");
+                background-repeat: no-repeat;
+                background-position: center;
+            }
+
+            .talk2 {
+                width: 220px;
+                height: 100px;
+                padding: 25px 0px;
+                background-image: url("../image/talk_2.png");
+                background-repeat: no-repeat;
+                background-position: center;
+            }
+
+            button {
+                left: 50%;
+                transform: translate(-50%);
+            }
+        }
+    }
+}
+
+/* 테블릿 세로 (해상도 768px ~ 1023px)*/
+@media all and (min-width:768px) and (max-width:1023px) {
+    body {
+        overflow: auto;
+    }
+
+    .event-container {
+        width: 100vw;
+
+        display: block;
+        font-size: 1em;
+
+        .event-rullet {
+            width: 100%;
+            height: 100vh;
+            border-right: none;
+
+            .title {
+                width: 40%;
+                z-index: 1;
+            }
+
+            .sc-gsTCUz {
+                width: 350px;
+                height: 350px;
+                z-index: 2;
+            }
+
+            .man {
+                width: 20%;
+            }
+
+            .girl {
+                width: 50%;
+                right: 0%;
+            }
+        }
+
+        .event-result {
+            width: 100%;
+            height: 400px;
+            text-align: center;
+
+            p {
+                color: black;
+                font-size: 1em;
+            }
+
+            .talk1 {
+                width: 200px;
+                height: 100px;
+                padding: 24px 0px;
+                background-image: url("../image/talk_1.png");
+                background-repeat: no-repeat;
+                background-position: center;
+            }
+
+            .talk2 {
+                width: 220px;
+                height: 100px;
+                padding: 25px 0px;
+                background-image: url("../image/talk_2.png");
+                background-repeat: no-repeat;
+                background-position: center;
+            }
+
+            button {
+                left: 50%;
+                transform: translate(-50%);
+            }
         }
     }
 }

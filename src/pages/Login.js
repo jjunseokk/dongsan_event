@@ -4,7 +4,7 @@ import '../style/login.scss';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-
+import axios from "axios";
 const Login = () => {
     const [name, setUserName] = useState(""); // --------------- 회원가입 name 값 받기------------
     const [password, setPassword] = useState(""); // ---------------회원가입 password 값 받기------------
@@ -91,9 +91,9 @@ const Login = () => {
             })
             .catch(error => console.error(error));
 
-        // axios.get('/api/login')
+        // axios.post('/login')
         // .then(response => {
-        //     setUsers({ data: response.data })
+        //     console.log({ data: response })
         // })
         // .catch(error => {
         //     console.log(error);
@@ -127,7 +127,7 @@ const Login = () => {
                         <label style={{ position: 'relative' }}>
                             <span>비밀번호</span>
                             <input type={showPw ? 'text' : "password"} name="password" value={loginPassword} onChange={(e) => setLoginPassword(e.target.value)} />
-                            <span style={{ position: 'absolute', top: '15px', right: -20, fontSize: 10, cursor: 'pointer' }} onClick={() => {
+                            <span style={{ position: 'absolute', top: '15px', right: -40, fontSize: 10, cursor: 'pointer' }} onClick={() => {
                                 setShowPw(!showPw);
                             }}>{showPw ? <FontAwesomeIcon icon={faEye} /> : <FontAwesomeIcon icon={faEyeSlash} />}</span>
                         </label>

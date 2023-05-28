@@ -1,0 +1,28 @@
+.manager-container{
+
+    display: flex;
+    
+    .sidebar{
+        width: 20%;
+        height: 100vh;
+        border: 1px solid red;
+    }
+    .section{
+        width: 80%;
+        height: 100vh;
+        border: 1px solid blue;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        
+        table, tr, td{
+            border: none;
+            text-align: center;
+            padding: 10px;
+            margin: 0;
+        }
+        table{
+            width: 80%;
+        }
+    }
+}
