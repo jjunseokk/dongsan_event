@@ -7,65 +7,94 @@ import girl from '../image/girl.png';
 import { useNavigate } from "react-router-dom";
 
 import title from '../image/title.png';
+import { useSelector } from "react-redux";
 
 const Event = () => {
     const navigate = useNavigate();
+    const redux_data = useSelector((state) => state) || {};
+
+    const dataArr = redux_data;
+    // console.log(dataArr);
 
     const data = [
-        {
-            option: '1000',
-            score: 1000, style: { backgroundColor: 'white' }
-        },
+        { option: '1000', score: 1000, style: { backgroundColor: 'white' } },
         { option: '500', score: 500, style: { backgroundColor: 'skyblue' } },
         { option: '100', score: 100, style: { backgroundColor: 'white' } },
         { option: '300', score: 300, style: { backgroundColor: 'skyblue' } },
         { option: '700', score: 700, style: { backgroundColor: 'white' } },
         { option: '1500', score: 1500, style: { backgroundColor: 'skyblue' } },
-        { option: '0', score: 0, style: { backgroundColor: 'white' } },
+        { option: '꽝', score: 0, style: { backgroundColor: 'white' } },
         { option: '600', score: 600, style: { backgroundColor: 'skyblue' } },
         { option: '200', score: 200, style: { backgroundColor: 'white' } },
         { option: '450', score: 450, style: { backgroundColor: 'skyblue' } },
     ];
 
-    const [mustSpin, setMustSpin] = useState(false);
-    const [prizeNumber, setPrizeNumber] = useState(0);
+    const [prizeNumber, setPrizeNumber] = useState(null);
     const [points, setPoints] = useState(0);
     const [result, setResult] = useState('');
     const [users, setUsers] = useState({});
+    const [boolean, setBoolean] = useState();
+
+
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+    const day = String(currentDate.getDate()).padStart(2, '0');
+
+    const formattedDate = `${year}-${month}-${day}`;
+
+    const [date, setDate] = useState(formattedDate);
+
+
+    // useEffect(() => {
+    //     // Retrieve users data from localStorage if available
+    //     const storedUsers = localStorage.getItem('users');
+    //     if (storedUsers) {
+    //         setUsers(JSON.parse(storedUsers));
+    //     }
+    // }, []);
+
+    // useEffect(() => {
+    //     localStorage.setItem('users', JSON.stringify(users));
+    // }, [users]);
 
     useEffect(() => {
-        // 이벤트 결과를 서버에 저장하는 요청
-        axios.post('/points', { points })
+        axios.post('/points', { points, dataArr })
             .then(response => {
-                setUsers(response.data.success);
+                setUsers(response.data.success[0]);
+                console.log("data", response.data.success[0]);
             })
             .catch(error => console.error(error));
-
     }, [points]);
 
     const handleSpinClick = () => {
-        if (!mustSpin) {
-            const newPrizeNumber = Math.floor(Math.random() * data.length);
-            setPrizeNumber(newPrizeNumber);
-            setMustSpin(true);
-        }
+        const newPrizeNumber = Math.floor(Math.random() * data.length);
+        setPrizeNumber(newPrizeNumber);
+        // axios.post('/time', {date})
+        //     .then(response => {
+        //         console.log(response);
+        //     })
+        //     .catch(error => console.error(error));
     };
 
     const handleStopSpinning = () => {
+
         const selectedOption = data[prizeNumber];
         const pointToAdd = selectedOption.score;
-        setPoints(pointToAdd);
+        setPoints(points + pointToAdd);
         setResult(`축하합니다! ${pointToAdd} 포인트를 획득하셨습니다.`);
-        setMustSpin(false);
+
+        setPrizeNumber(null);
     };
+    console.log("ss", points);
 
     return (
         <div className="event-container">
             <div className="event-rullet">
                 <img src={title} className="title" style={{ margin: '0 20px' }} alt="title" />
-                {result && <p style={{ color: '#0FBA21' }}>{result}</p>}
+                {result && <p style={{ color: 'white' }}>{result}</p>}
                 <Wheel
-                    mustStartSpinning={mustSpin}
+                    mustStartSpinning={prizeNumber !== null}
                     prizeNumber={prizeNumber}
                     data={data}
                     onStopSpinning={handleStopSpinning}
@@ -80,13 +109,12 @@ const Event = () => {
             </div>
             <div className="event-result">
                 <p className="talk1">반갑습니다. {users && users.name} 님 </p>
-                <p className="talk2">내포인트 : {users && users.point + points}P</p>
+                <p className="talk2">내포인트: {users && (users.point)}P</p>
 
                 <button style={{ cursor: 'pointer' }} onClick={() => {
                     navigate('/')
                 }}>뒤로가기</button>
             </div>
-
         </div>
     )
 }

@@ -4,7 +4,10 @@ import '../style/login.scss';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { dataState } from "../redux/store";
 import axios from "axios";
+
 const Login = () => {
     const [name, setUserName] = useState(""); // --------------- 회원가입 name 값 받기------------
     const [password, setPassword] = useState(""); // ---------------회원가입 password 값 받기------------
@@ -16,10 +19,21 @@ const Login = () => {
     let [changePW, setChangePW] = useState(true); // ----비밀번호와 비밀번호 확인 일치하는지..
     let [showModal, setShowModal] = useState(false) // --------------- 회원가입 모달창띄우기 ------------
     const [successJoin, setSuccessJoin] = useState(false); //----------회원가입 성공 모달-------
-
+    const dispatch = useDispatch();
     const [showPw, setShowPw] = useState(false); //-------로그인할 때 비밀번호 보이게 하는 눈버튼
     const navigate = useNavigate();
 
+    const [point, setPoint] = useState()
+
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+    const day = String(currentDate.getDate()).padStart(2, '0');
+
+    const formattedDate = `${year}-${month}-${day}`;
+
+    const [date, setDate] = useState(formattedDate);
+    const total_data = { name, password, email, manager, point, date };
 
     // -----회원 가입을 눌렀을 때 node로 post를 한 후 DB에 접근한다.-----
     const handleSubmit = (event) => {
@@ -27,14 +41,10 @@ const Login = () => {
 
         if (validatePassword(password) && validateEmail(email) && password === check) {
             // 유효한 이메일과 비밀번호인 경우 회원가입 처리
-            fetch("/join", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ name, password, email, manager })
-            })
-                .then(res => res.json())
+            axios.post("/join", total_data)
                 .then((data) => {
-                    if (data.name === undefined) {
+                    console.log(data);
+                    if (data.status === 200) {
                         alert('회원가입이 완료되었습니다.');
                         setUserName('');
                         setPassword('');
@@ -42,13 +52,11 @@ const Login = () => {
                         setManager('');
                         setCheck('');
                         setShowModal(false)
-                    } else {
-                        alert(data.name)
                     }
                 })
                 .catch((error) => {
                     if (error) {
-                        console.log("error", error);
+                        alert(error.response.data.name);
                     }
                 });
         } else if (!validatePassword(password)) {
@@ -63,26 +71,24 @@ const Login = () => {
         } else if (password !== check) {
             setChangePW(false);
         }
-        
+
     }
 
     // --------로그인 시 DB 접근 후 DB에 일치하는 아이디와 비밀번호가 있다면 로그인 성공-----------
+    const login_data = { loginName, loginPassword };
     const goLogin = (event) => {
         event.preventDefault();
 
-        fetch("/login", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ loginName, loginPassword })
-        })
-            .then(response => response.json())
+        axios.post("/login", login_data)
             .then((data) => {
-                if (data.success) {
+                if (data.data.success) {
                     // 로그인 성공
                     console.log("성공");
-                    console.log(data)
+                    console.log(data.data.success[0]);
+                    setPoint(data.data.success[0].point);
+                    dispatch(dataState(data.data.success[0]));
                     // 로그인한 사용자 정보를 저장하고, 다른 페이지에서 사용할 수 있도록 처리할 수 있습니다.
-                    data.success.manager === 'dongsan!!' ? navigate('/Manager') : navigate(`/Event`);
+                    data.data.success[0].manager === 'dongsan!!' ? navigate('/Manager') : navigate(`/Event`);
                 } else {
                     // 로그인 실패
                     console.log("실패!");
@@ -90,14 +96,6 @@ const Login = () => {
                 }
             })
             .catch(error => console.error(error));
-
-        // axios.post('/login')
-        // .then(response => {
-        //     console.log({ data: response })
-        // })
-        // .catch(error => {
-        //     console.log(error);
-        // })
     }
 
     // 이메일 정규식

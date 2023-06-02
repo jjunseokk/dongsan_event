@@ -1,12 +1,24 @@
-import { createStore, applyMiddleware } from "redux";
-import thunk from "redux-thunk";
-import { composeWithDevTools } from 'redux-devtools-extension';
-import rootReducer from './reducers'
-
-let store = createStore(
-    rootReducer,
-    composeWithDevTools(applyMiddleware(thunk))
-);
+import { configureStore, createSlice } from "@reduxjs/toolkit";
 
 
-export default store;
+let data = createSlice({
+    name: 'data',
+    initialState: {},
+    reducers: {
+        dataState(state, action) {
+            return {
+                ...state,
+                data: action.payload
+            }
+        }
+    }
+})
+
+export let { dataState } = data.actions;
+
+
+export default configureStore({
+    reducer:{
+        data : data.reducer,
+    }
+})
