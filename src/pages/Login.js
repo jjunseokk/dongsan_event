@@ -88,14 +88,10 @@ const Login = () => {
                     setPoint(data.data.success[0].point);
                     dispatch(dataState(data.data.success[0]));
                     // 로그인한 사용자 정보를 저장하고, 다른 페이지에서 사용할 수 있도록 처리할 수 있습니다.
-                    data.data.success[0].manager === 'dongsan!!' ? navigate('/Manager') : navigate(`/Event`);
-                } else {
-                    // 로그인 실패
-                    console.log("실패!");
-                    alert("아이디와 비밀번호를 확인하세요.")
+                    data.data.success[0].manger === 'dongsan!!' ? navigate('/Manager') : navigate(`/Event`);
                 }
             })
-            .catch(error => console.error(error));
+            .catch(error => alert('아이디와 비밀번호가 일치하지 않습니다.'));
     }
 
     // 이메일 정규식

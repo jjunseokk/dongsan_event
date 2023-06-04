@@ -63,11 +63,11 @@ app.get("/*", (req, res) => {
 
 app.post('/join', (req, res) => {
     const { name, email, password, point, date, manager } = req.body;
-    console.log(req.body);
+    // console.log(req.body);
 
     let query_name = `SELECT * FROM dongsan WHERE name = '${name}'`;
     let query_email = `SELECT * FROM dongsan WHERE email = '${email}'`;
-    let query_add = `INSERT INTO dongsan (name, email, password, point, manager, click) VALUES ('${name}', '${email}', '${password}','${point}','${manager}','${date}')`;
+    let query_add = `INSERT INTO dongsan (name, email, password, manger) VALUES ('${name}', '${email}', '${password}','${manager}')`;
 
 
     connection.query(query_name, [name], (error, result) => {
@@ -120,65 +120,57 @@ app.post("/login", (req, res) => {
         } else {
             res.json({ success: result });
         }
+
+
     })
 
     console.log(name, password);
     // DB에서 입력받은 아이디와 비밀번호가 일치하는지 확인합니다.
 });
-
+let total_point = 0;
 app.post('/points', (req, res) => {
-    const { points, dataArr } = req.body
+    const { point, date, reduxData } = req.body;
 
-    let name = dataArr.data.data.name;
+    console.log("points", point);
+    console.log("date", date);
+    console.log("reduxData", reduxData);
+    total_point += point;
+    console.log(total_point);
 
-    let query_point = `SELECT * FROM dongsan WHERE name = '${name}'`;
-    let query_date = `UPDATE dongsan SET click='2020-02-02' WHERE name = '${name}'`;
-
-    connection.query(query_point, (error, result) => {
+    let query_checkPoint = `SELECT COUNT(*) num FROM point WHERE reg_date = STR_TO_DATE('${date}', '%Y-%m-%d')`;
+    let query_insertPoint = `INSERT INTO point (name, add_point, sub_point, total_point, reg_date)
+    VALUES ('${reduxData.name}', ${point}, NULL, ${total_point}, '${date}')`;
+    connection.query(query_checkPoint, (error, result) => {
         if (error) {
-            res.status(500).json({ error: '서버 에러가 발생했습니다.' });
+            res.status(500).json({ error: "서버 오류" })
         } else {
-            connection.query(query_date, (err, result) => {
-                if (err) {
-                    res.status(500).json({ error: '서버 에러가 발생했습니다.' });
-                } else {
-                    res.json({success : result});
-                }
-            })
+            console.log(result[0]);
+            if (result[0].num > 0) {
+                res.json("이벤트를 하루에 한번씩만 참여할 수 있습니다.");
+            } else {
+                connection.query(query_insertPoint, (error, result) => {
+                    if (error) {
+                        res.status(500).json({ error: "서버 오류" })
+                    } else {
+                        res.json(`${point}포인트를 획득하였습니다.`)
+                    }
+                });
+            }
         }
-    });
+    })
 });
 
-// app.post('/points', (req, res) => {
-//     const { points, dataArr, users } = req.body
+app.post('/Event', (req, res) => {
 
-//     let name = dataArr.data.data.name;
+    let query_select = `SELECT d.*, IFNULL((SELECT total_point FROM point WHERE name = d.name LIMIT 1), 0) AS point FROM dongsan d`;
 
-//     let query_point = `SELECT * FROM dongsan WHERE name = '${name}'`;
-
-
-//     connection.query(query_point, (error, result) => {
-//         let currentPoints = points;
-//         let newPoints = currentPoints + users.point;
-//         let point_update = `UPDATE dongsan SET point=${newPoints} WHERE name = '${name}'`
-
-//         if (error) {
-//             res.status(500).json({ error: '서버 에러가 발생했습니다.' });
-//         } else {
-
-//             connection.query(point_update, (error, result) => {
-//                 if (error) {
-//                     res.status(500).json({ error: '서버 에러가 발생했습니다.' });
-//                 } else {
-//                     connection.query(query_point, (error, result) => {
-//                         if (error) {
-//                             res.status(500).json({ error: '서버 에러가 발생했습니다.' });
-//                         } else {
-//                             res.json({ success: result });
-//                         }
-//                     })
-//                 }
-//             })
-//         };
-//     });
-// });
+    connection.query(query_select, (error, result) => {
+        if (error) {
+            res.status(500).json({ error: "서버 오류" })
+        } else {
+            res.json({ data: result })
+        }
+        let user_point = result
+        console.log("user", user_point);
+    });
+});

@@ -13,9 +13,6 @@ const Event = () => {
     const navigate = useNavigate();
     const redux_data = useSelector((state) => state) || {};
 
-    const dataArr = redux_data;
-    // console.log(dataArr);
-
     const data = [
         { option: '1000', score: 1000, style: { backgroundColor: 'white' } },
         { option: '500', score: 500, style: { backgroundColor: 'skyblue' } },
@@ -30,10 +27,10 @@ const Event = () => {
     ];
 
     const [prizeNumber, setPrizeNumber] = useState(null);
-    const [points, setPoints] = useState(0);
+    const [points, setPoints] = useState();
     const [result, setResult] = useState('');
     const [users, setUsers] = useState({});
-    const [boolean, setBoolean] = useState();
+    const [reduxData, setReduxData] = useState(redux_data.data.data);
 
 
     const currentDate = new Date();
@@ -58,11 +55,12 @@ const Event = () => {
     //     localStorage.setItem('users', JSON.stringify(users));
     // }, [users]);
 
+
     useEffect(() => {
-        axios.post('/points', { points, dataArr })
+        axios.post('/Event')
             .then(response => {
-                setUsers(response.data.success[0]);
-                console.log("data", response.data.success[0]);
+                console.log(response.data.data[0]);
+                setUsers(response.data.data[0]);
             })
             .catch(error => console.error(error));
     }, [points]);
@@ -70,23 +68,19 @@ const Event = () => {
     const handleSpinClick = () => {
         const newPrizeNumber = Math.floor(Math.random() * data.length);
         setPrizeNumber(newPrizeNumber);
-        // axios.post('/time', {date})
-        //     .then(response => {
-        //         console.log(response);
-        //     })
-        //     .catch(error => console.error(error));
+        const point = (data[newPrizeNumber].score);
+        console.log(point);
+        axios.post('/points', { point: point, date, reduxData })
+            .then(response => {
+                console.log("data", response);
+                setResult(response.data)
+            })
+            .catch(error => console.error(error));
     };
 
     const handleStopSpinning = () => {
-
-        const selectedOption = data[prizeNumber];
-        const pointToAdd = selectedOption.score;
-        setPoints(points + pointToAdd);
-        setResult(`축하합니다! ${pointToAdd} 포인트를 획득하셨습니다.`);
-
         setPrizeNumber(null);
     };
-    console.log("ss", points);
 
     return (
         <div className="event-container">
