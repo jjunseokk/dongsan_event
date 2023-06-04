@@ -23,6 +23,7 @@ body {
 
     .event-rullet {
         width: 70%;
+        height: 100%;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -77,11 +78,12 @@ body {
 
     .event-result {
         width: 30%;
-        height: 100vh;
+        height: 100%;
         position: relative;
         background-color: #1471D8;
         padding: 40px 0px;
         text-align: center;
+        border: 1px solid red;
 
         p {
             color: black;
