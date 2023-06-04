@@ -43,7 +43,7 @@ const Login = () => {
             // 유효한 이메일과 비밀번호인 경우 회원가입 처리
             axios.post("/join", total_data)
                 .then((data) => {
-                    console.log(data);
+                    // console.log(data);
                     if (data.status === 200) {
                         alert('회원가입이 완료되었습니다.');
                         setUserName('');
@@ -83,12 +83,12 @@ const Login = () => {
             .then((data) => {
                 if (data.data.success) {
                     // 로그인 성공
-                    console.log("성공");
-                    console.log(data.data.success[0]);
+                    // console.log("성공");
+                    // console.log(data.data.success[0]);
                     setPoint(data.data.success[0].point);
                     dispatch(dataState(data.data.success[0]));
                     // 로그인한 사용자 정보를 저장하고, 다른 페이지에서 사용할 수 있도록 처리할 수 있습니다.
-                    data.data.success[0].manger === 'dongsan!!' ? navigate('/Manager') : navigate(`/Event`);
+                    data.data.success[0].manager === 'dongsan!!' ? navigate('/Manager') : navigate(`/Event`);
                 }
             })
             .catch(error => alert('아이디와 비밀번호가 일치하지 않습니다.'));

@@ -43,23 +43,13 @@ const Event = () => {
     const [date, setDate] = useState(formattedDate);
 
 
-    // useEffect(() => {
-    //     // Retrieve users data from localStorage if available
-    //     const storedUsers = localStorage.getItem('users');
-    //     if (storedUsers) {
-    //         setUsers(JSON.parse(storedUsers));
-    //     }
-    // }, []);
 
-    // useEffect(() => {
-    //     localStorage.setItem('users', JSON.stringify(users));
-    // }, [users]);
 
 
     useEffect(() => {
-        axios.post('/Event')
+        axios.post('/Event', reduxData)
             .then(response => {
-                console.log(response.data.data[0]);
+                console.log(response);
                 setUsers(response.data.data[0]);
             })
             .catch(error => console.error(error));
@@ -69,18 +59,19 @@ const Event = () => {
         const newPrizeNumber = Math.floor(Math.random() * data.length);
         setPrizeNumber(newPrizeNumber);
         const point = (data[newPrizeNumber].score);
-        console.log(point);
+        // console.log(point);
         axios.post('/points', { point: point, date, reduxData })
             .then(response => {
-                console.log("data", response);
-                setResult(response.data)
+                // console.log("data", response);
+                setResult(response.data);
+                setPoints(point);
             })
             .catch(error => console.error(error));
     };
-
     const handleStopSpinning = () => {
         setPrizeNumber(null);
     };
+
 
     return (
         <div className="event-container">
