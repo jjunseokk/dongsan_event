@@ -14,13 +14,6 @@ app.use(cors());
 require('dotenv').config();
 
 
-// const server = http.createServer((req, res) => {
-//     // 요청 처리
-//     res.statusCode = 200;
-//     res.setHeader('Content-Type', 'text/plain');
-//     res.end('Hello, World!');
-// });
-
 const connection = mysql.createConnection({
     host: process.env.MYSQL_HOST,
     port: 3306,
@@ -35,8 +28,8 @@ connection.connect((err) => {
         return;
     }
     console.log('MySQL에 성공적으로 연결되었습니다!');
-    app.listen(port, () => {
-        console.log(`Server is running on port ${port}`);
+    http.createServer(app).listen(port, () => {
+        console.log(`app listening at ${port}`);
     });
 });
 
@@ -49,7 +42,7 @@ app.use(function (req, res, next) {
     next();
 });
 
-// app.use(express.static(path.join(__dirname, "build")));
+app.use(express.static(path.join(__dirname, "build")));
 
 app.get("/*", (req, res) => {
     res.set({
@@ -57,7 +50,7 @@ app.get("/*", (req, res) => {
         Pragma: "no-cache",
         Date: Date.now()
     });
-    //  res.sendFile(path.join(__dirname, "build", "index.html"));
+    res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
 
