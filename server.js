@@ -55,12 +55,12 @@ app.get("/*", (req, res) => {
 
 
 app.post('/join', (req, res) => {
-    const { name, email, password, point, date, manager } = req.body;
-    // console.log(req.body);
+    const { name, tel, password, point, date, manager } = req.body;
+    console.log(req.body);
 
     let query_name = `SELECT * FROM dongsan WHERE name = '${name}'`;
-    let query_email = `SELECT * FROM dongsan WHERE email = '${email}'`;
-    let query_add = `INSERT INTO dongsan (name, email, password, manager) VALUES ('${name}', '${email}', '${password}','${manager}')`;
+    let query_phone = `SELECT * FROM dongsan WHERE phone = '${tel}'`;
+    let query_add = `INSERT INTO dongsan (name, phone, password, manager) VALUES ('${name}', '${tel}', '${password}','${manager}')`;
 
 
     connection.query(query_name, [name], (error, result) => {
@@ -74,7 +74,7 @@ app.post('/join', (req, res) => {
             return res.status(409).json({ name: '이미 존재하는 이름입니다.' });
         }
 
-        connection.query(query_email, [email], (error, result) => {
+        connection.query(query_phone, [tel], (error, result) => {
             if (error) {
                 console.error(error);
                 return res.status(500).json({ error: '서버 에러가 발생했습니다.' });
@@ -82,10 +82,10 @@ app.post('/join', (req, res) => {
 
             if (result.length > 0) {
                 console.log("존재하는 이메일");
-                return res.status(409).json({ name: '이미 존재하는 이메일입니다.' });
+                return res.status(409).json({ name: '이미 가입된 핸드폰번호입니다.' });
             }
 
-            connection.query(query_add, [name, email, password, point, manager, date], (error, result) => {
+            connection.query(query_add, [name, tel, password, point, manager, date], (error, result) => {
                 if (error) {
                     console.error(error);
                     return res.status(500).json({ error: '서버 에러가 발생했습니다.' });
@@ -133,7 +133,7 @@ app.post('/points', (req, res) => {
 
     let query_checkPoint = `SELECT COUNT(*) num FROM point WHERE reg_date = STR_TO_DATE('${date}', '%Y-%m-%d') and name ='${reduxData.name}'`;
 
-    let query_select = `SELECT d.*, IFNULL((SELECT p.total_point point FROM point p where name = d.name ORDER BY p.point_id DESC LIMIT 1), 0) AS point FROM dongsan d where name = ${reduxData.name}`;
+    let query_select = `SELECT d.*, IFNULL((SELECT p.total_point point FROM point p where name = d.name ORDER BY p.point_id DESC LIMIT 1), 0) AS point FROM dongsan d where name = '${reduxData.name}'`;
     connection.query(query_select, (error, result) => {
         if (error) {
             res.status(500).json({ error: "서버 오류" })

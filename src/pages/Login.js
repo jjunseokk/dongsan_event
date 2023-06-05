@@ -11,7 +11,7 @@ import axios from "axios";
 const Login = () => {
     const [name, setUserName] = useState(""); // --------------- 회원가입 name 값 받기------------
     const [password, setPassword] = useState(""); // ---------------회원가입 password 값 받기------------
-    const [email, setEmail] = useState('');// ---------------회원가입 email 값 받기------------
+    const [tel, setTel] = useState('');// ---------------회원가입 email 값 받기------------
     const [loginName, setLoginName] = useState(""); // --------------- 로그인 name 값 받기------------
     const [loginPassword, setLoginPassword] = useState(""); // ---------------로그인 password 값 받기------------
     const [check, setCheck] = useState('');// ---------------비밀번호 확인 값 받기------------
@@ -33,13 +33,13 @@ const Login = () => {
     const formattedDate = `${year}-${month}-${day}`;
 
     const [date, setDate] = useState(formattedDate);
-    const total_data = { name, password, email, manager, point, date };
+    const total_data = { name, password, tel, manager, point, date };
 
     // -----회원 가입을 눌렀을 때 node로 post를 한 후 DB에 접근한다.-----
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        if (validatePassword(password) && validateEmail(email) && password === check) {
+        if (validatePassword(password) && validatePhoneNumber(tel) && password === check) {
             // 유효한 이메일과 비밀번호인 경우 회원가입 처리
             axios.post("/join", total_data)
                 .then((data) => {
@@ -48,7 +48,7 @@ const Login = () => {
                         alert('회원가입이 완료되었습니다.');
                         setUserName('');
                         setPassword('');
-                        setEmail('');
+                        setTel('');
                         setManager('');
                         setCheck('');
                         setShowModal(false)
@@ -61,8 +61,8 @@ const Login = () => {
                 });
         } else if (!validatePassword(password)) {
             alert('비밀번호는 최소 8자 이상, 대소문자와 특수문자가 들어가야합니다.');
-        } else if (!validateEmail(email)) {
-            alert("이메일 형식이 올바르지 않습니다.");
+        } else if (!validatePhoneNumber(tel)) {
+            alert("전화번호 형식이 올바르지 않습니다.");
         }
 
         // 비밀번호가 일치한지 확인 후 state 변경
@@ -94,11 +94,16 @@ const Login = () => {
             .catch(error => alert('아이디와 비밀번호가 일치하지 않습니다.'));
     }
 
-    // 이메일 정규식
-    const validateEmail = (email) => {
-        const re = /\S+@\S+\.\S+/;
-        return re.test(email);
-    };
+    // 전화번호 정규식
+    const validatePhoneNumber = (phoneNumber) => {
+        // 전화번호에 포함된 하이픈 제거
+        const number = phoneNumber.replace(/-/g, '');
+        console.log(phoneNumber);
+        // 전화번호 정규식 패턴
+        const re = /^\d{2,3}\d{3,4}\d{4}$/;
+      
+        return re.test(number);
+      };
 
     // 비밀번호 유효성 검사 함수
     const validatePassword = (password) => {
@@ -144,8 +149,8 @@ const Login = () => {
                         <input type="text" value={name} placeholder="실명만 입력하세요." onChange={(e) => setUserName(e.target.value)} required />
                     </label>
                     <label>
-                        <p>이메일</p>
-                        <input type="text" value={email} placeholder="이메일을 입력하세요." onChange={(e) => setEmail(e.target.value)} required />
+                        <p>전화번호</p>
+                        <input type="tel" maxLength='13' value={tel} placeholder="전화번호(- 포함)를 입력하세요." onChange={(e) => setTel(e.target.value)} required />
                     </label>
                     <label>
                         <p>비밀번호</p>

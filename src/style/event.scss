@@ -55,7 +55,7 @@ body {
             height: 40px;
             cursor: pointer;
             z-index: 2;
-            background : url(../image/button.png) no-repeat;
+            background: url(../image/button.png) no-repeat;
             background-size: contain;
         }
 
@@ -83,7 +83,6 @@ body {
         background-color: #1471D8;
         padding: 40px 0px;
         text-align: center;
-        border: 1px solid red;
 
         p {
             color: black;
@@ -291,31 +290,7 @@ body {
         display: block;
         font-size: 1em;
 
-        .event-rullet {
-            width: 100%;
-            height: 100vh;
-            border-right: none;
 
-            .title {
-                width: 40%;
-                z-index: 1;
-            }
-
-            .sc-gsTCUz {
-                width: 350px;
-                height: 350px;
-                z-index: 2;
-            }
-
-            .man {
-                width: 20%;
-            }
-
-            .girl {
-                width: 50%;
-                right: 0%;
-            }
-        }
 
         .event-result {
             width: 100%;
@@ -348,6 +323,68 @@ body {
             button {
                 left: 50%;
                 transform: translate(-50%);
+            }
+        }
+    }
+}
+
+@media all and (min-width:1598px) {
+    body {
+        overflow: auto;
+    }
+
+    .event-container {
+        width: 100%;
+        height: 100vh;
+        margin: 0 auto;
+        display: flex;
+        font-size: 1em;
+
+        
+        .event-result {
+            width: 30%;
+            height: 100%;
+            position: relative;
+            background-color: #1471D8;
+            padding: 40px 0px;
+            text-align: center;
+
+            p {
+                color: black;
+                font-size: 1em;
+                margin: 0 auto;
+            }
+
+            .talk1 {
+                width: 30%;
+                height: 105px;
+                padding: 3% 0%;
+                text-align: center;
+                background: url(../image/talk_1.png) no-repeat;
+                background-size: contain;
+            }
+
+            .talk2 {
+                width: 30%;
+                height: 105px;
+                padding: 4% 0%;
+                text-align: center;
+                background: url(../image/talk_2.png) no-repeat;
+                background-size: contain;
+            }
+
+            button {
+                position: absolute;
+                bottom: 20px;
+                left: 50%;
+                transform: translate(-50%);
+                width: 40%;
+                font-size: 30px;
+                border-radius: 20px;
+                border: none;
+                color: white;
+                background-color: yellowgreen;
+                z-index: 1;
             }
         }
     }
