@@ -56,11 +56,12 @@ const Manager = () => {
       .catch(error => console.error(error))
   };
 
+
   return (
     <div className="manager-container">
-      <div className="sidebar">
+      {/* <div className="sidebar">
         광주동산교회 관리자 페이지
-      </div>
+      </div> */}
       <div className="section">
         <table>
           <thead style={{ backgroundColor: "gray" }}>
