@@ -131,9 +131,9 @@ app.post('/points', (req, res) => {
     console.log("reduxData", reduxData);
 
 
-    let query_checkPoint = `SELECT COUNT(*) num FROM point WHERE reg_date = STR_TO_DATE('${date}', '%Y-%m-%d') and name ='${reduxData.name}'`;
+    let query_checkPoint = `SELECT COUNT(*) num FROM point WHERE reg_date = STR_TO_DATE('${date}', '%Y-%m-%d') and name ='${reduxData && reduxData.name}'`;
 
-    let query_select = `SELECT d.*, IFNULL((SELECT p.total_point point FROM point p where name = d.name ORDER BY p.point_id DESC LIMIT 1), 0) AS point FROM dongsan d where name = '${reduxData.name}'`;
+    let query_select = `SELECT d.*, IFNULL((SELECT p.total_point point FROM point p where name = d.name ORDER BY p.point_id DESC LIMIT 1), 0) AS point FROM dongsan d where name = '${reduxData && reduxData.name}'`;
     connection.query(query_select, (error, result) => {
         if (error) {
             res.status(500).json({ error: "서버 오류" })
@@ -145,7 +145,7 @@ app.post('/points', (req, res) => {
             console.log("total_point", total_point);
 
             let query_insertPoint = `INSERT INTO point (name, add_point, sub_point, total_point, reg_date)
-            VALUES ('${reduxData.name}', ${point}, NULL, ${total_point}, '${date}')`;
+            VALUES ('${reduxData && reduxData.name}', ${point}, NULL, ${total_point}, '${date}')`;
 
             connection.query(query_checkPoint, (error, result) => {
                 if (error) {
@@ -175,7 +175,7 @@ app.post('/Event', (req, res) => {
     const reduxData = req.body;
     console.log(reduxData);
 
-    let query_select = `SELECT d.*, IFNULL((SELECT p.total_point point FROM point p where name = d.name ORDER BY p.point_id DESC LIMIT 1), 0) AS point FROM dongsan d where name ='${reduxData.name}'`;
+    let query_select = `SELECT d.*, IFNULL((SELECT p.total_point point FROM point p where name = d.name ORDER BY p.point_id DESC LIMIT 1), 0) AS point FROM dongsan d where name ='${reduxData && reduxData.name}'`;
 
     connection.query(query_select, (error, result) => {
         if (error) {
@@ -205,9 +205,9 @@ app.post('/subPoint', (req, res) => {
     const { spendData } = req.body;
     console.log(spendData);
 
-    let totalPoint = spendData.item.point - spendData.sub_point;
+    let totalPoint = spendData.item && spendData.item.point - spendData.sub_point;
     console.log("totalPoint", totalPoint);
-    let query_sub = `insert into point(name,sub_point,total_point) values ('${spendData.item.name}',${spendData.sub_point},${totalPoint})`
+    let query_sub = `insert into point(name,sub_point,total_point) values ('${spendData.item && spendData.item.name}',${spendData.item && spendData.sub_point},${totalPoint})`
     connection.query(query_sub, (error, result) => {
         if (error) {
             res.status(500).json({ error: "서버 오류" })
