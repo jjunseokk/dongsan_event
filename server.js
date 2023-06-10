@@ -205,11 +205,7 @@ app.post('/subPoint', (req, res) => {
     const { spendData } = req.body;
     console.log(spendData);
 
-<<<<<<< HEAD
-    let totalPoint =spendData.itme && spendData.item.point - spendData.sub_point;
-=======
     let totalPoint = spendData.item && spendData.item.point - spendData.sub_point;
->>>>>>> fdcb71255733f13f6b6c8ca18aa9d1003f9a99a0
     console.log("totalPoint", totalPoint);
     let query_sub = `insert into point(name,sub_point,total_point) values ('${spendData.item && spendData.item.name}',${spendData.item && spendData.sub_point},${totalPoint})`
     connection.query(query_sub, (error, result) => {
