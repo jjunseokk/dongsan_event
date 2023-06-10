@@ -49,7 +49,6 @@ const Event = () => {
     useEffect(() => {
         axios.post('/Event', reduxData)
             .then(response => {
-                console.log(response);
                 setUsers(response.data.data[0]);
             })
             .catch(error => console.error(error));
