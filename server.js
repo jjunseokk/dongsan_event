@@ -202,12 +202,12 @@ app.post('/manager', (req, res) => {
 
 app.post('/subPoint', (req, res) => {
     console.log("데이터 들어온다::", req.body);
-    const { spendData } = req.body;
-    console.log(spendData);
+    const { sub_point, item } = req.body;
+    console.log("sss",sub_point, item);
 
-    let totalPoint = spendData.item.point - spendData.sub_point;
+    let totalPoint = item.point - sub_point;
     console.log("totalPoint", totalPoint);
-    let query_sub = `insert into point(name,sub_point,total_point) values ('${spendData.item.name}',${spendData.sub_point},${totalPoint})`
+    let query_sub = `insert into point(name,sub_point,total_point) values ('${item.name}',${sub_point},${totalPoint})`
     connection.query(query_sub, (error, result) => {
         if (error) {
             res.status(500).json({ error: "서버 오류" })

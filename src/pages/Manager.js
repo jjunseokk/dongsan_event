@@ -23,25 +23,24 @@ const Manager = () => {
       .catch((error) => console.error(error));
   };
 
-  useEffect(() => {
-    axios
-      .post('/subPoint', { spendData })
-      .then((response) => {
-        console.log(response);
-        setSubData(response);
-      })
-      .catch((error) => console.error(error))
-  }, [spendData]);
-
   const request = (item) => {
+    console.log(item);
     if (item && item.point < sub_point) {
       alert("차감될 포인트가 현재 포인트보다 많습니다.");
     } else {
-      setSpendData({ sub_point, item });
+      const requestData = { sub_point, item };
+      setSpendData(requestData);
+      // axios.post 호출 전에 spendData 값을 설정하고 있습니다.
+      axios
+        .post('/subPoint', requestData)
+        .then((response) => {
+          console.log(response);
+          setSubData(response);
+        })
+        .catch((error) => console.error(error));
     }
   };
 
-  console.log(deleteData);
 
   const deletePoint = (item) => {
     console.log(item);
