@@ -1,5 +1,5 @@
 {
-  "proxy": "http://localhost:5000",
+  "proxy": "http://localhost:80",
   "name": "dongsan_event",
   "version": "0.1.0",
   "private": true,
