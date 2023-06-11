@@ -8,6 +8,8 @@ const Manager = () => {
   const [spendData, setSpendData] = useState();
   const [subData, setSubData] = useState();
   const [deleteData, setDeleteData] = useState();
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   useEffect(() => {
     fetchData();
@@ -32,7 +34,7 @@ const Manager = () => {
       setSpendData(requestData);
       // axios.post 호출 전에 spendData 값을 설정하고 있습니다.
       axios
-        .post('/subPoint', requestData)
+        .post("/subPoint", requestData)
         .then((response) => {
           console.log(response);
           setSubData(response);
@@ -41,26 +43,32 @@ const Manager = () => {
     }
   };
 
-
   const deletePoint = (item) => {
     console.log(item);
     axios
-      .post('/deletePoint', item)
-      .then((response => {
+      .post("/deletePoint", item)
+      .then((response) => {
         console.log(response);
         setDeleteData(response);
         // Remove the deleted item from the data array
         setData((prevData) => prevData.filter((prevItem) => prevItem !== item));
-      }))
-      .catch(error => console.error(error))
+      })
+      .catch((error) => console.error(error));
   };
 
+  // Calculate the index range for the current page
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
+
+  // Change page
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  // Calculate the numbering for the items
+  const calculateItemNumber = (index) => indexOfFirstItem + index + 1;
 
   return (
     <div className="manager-container">
-      {/* <div className="sidebar">
-        광주동산교회 관리자 페이지
-      </div> */}
       <div className="section">
         <table>
           <thead style={{ backgroundColor: "gray" }}>
@@ -74,9 +82,9 @@ const Manager = () => {
             </tr>
           </thead>
           <tbody>
-            {data.map((item, index) => (
+            {currentItems.map((item, index) => (
               <tr key={index}>
-                <td>{index + 1}</td>
+                <td>{calculateItemNumber(index)}</td>
                 <td>{item.name}</td>
                 <td>{item.phone}</td>
                 <td>{item.password}</td>
@@ -93,12 +101,26 @@ const Manager = () => {
                   <button onClick={() => request(item)}>포인트 변경</button>
                 </td>
                 <td>
-                  <button onClick={() => { deletePoint(item) }}>삭제</button>
+                  <button onClick={() => deletePoint(item)}>삭제</button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
+      </div>
+      {/* Pagination */}
+      <div className="pagination">
+        {Array.from({ length: Math.ceil(data.length / itemsPerPage) }).map(
+          (page, index) => (
+            <button
+              key={index}
+              className={currentPage === index + 1 ? "active" : ""}
+              onClick={() => paginate(index + 1)}
+            >
+              {index + 1}
+            </button>
+          )
+        )}
       </div>
     </div>
   );
