@@ -2,7 +2,7 @@ const mysql = require('mysql2');
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
-const http = require("http");
+const https = require("https");
 const port = 80;
 const app = express();
 const bodyParser = require('body-parser')
@@ -28,7 +28,7 @@ connection.connect((err) => {
         return;
     }
     console.log('MySQL에 성공적으로 연결되었습니다!');
-    http.createServer(app).listen(port, () => {
+    https.createServer(app).listen(port, () => {
         console.log(`app listening at ${port}`);
     });
 });
