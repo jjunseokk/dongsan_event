@@ -7,7 +7,6 @@ const port = 80;
 const app = express();
 const bodyParser = require('body-parser')
 
-
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.json());
 app.use(cors());
