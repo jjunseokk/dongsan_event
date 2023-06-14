@@ -1,6 +1,15 @@
 .manager-container {
     margin: 100px 0px;
-
+    .search{
+        display: block;
+        margin: 0 auto;
+        width: 60%;
+        height: 30px;
+        padding: 5px;
+        &:focus{
+            outline: 3px solid skyblue;
+        }
+    }
     // .sidebar{
     //     width: 20%;
     //     height: 100vh;

@@ -10,6 +10,7 @@ const Manager = () => {
   const [deleteData, setDeleteData] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
+  const [searchName, setSearchName] = useState("");
 
   useEffect(() => {
     fetchData();
@@ -17,7 +18,7 @@ const Manager = () => {
 
   const fetchData = () => {
     axios
-      .post("/manager")
+      .post("/manager", { searchName })
       .then((response) => {
         console.log(response.data.data);
         setData(response.data.data);
@@ -59,16 +60,28 @@ const Manager = () => {
   // Calculate the index range for the current page
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
-
+  // const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
+  const filteredData = data.filter((item) =>
+    item.name.toLowerCase().includes(searchName.toLowerCase())
+  );
+  const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
   // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   // Calculate the numbering for the items
   const calculateItemNumber = (index) => indexOfFirstItem + index + 1;
 
+
+
+
   return (
     <div className="manager-container">
+      <input
+        className="search"
+        onChange={(e) => setSearchName(e.target.value)}
+        type="text"
+        placeholder="이름을 검색하세요"
+      />
       <div className="section">
         <table>
           <thead style={{ backgroundColor: "gray" }}>

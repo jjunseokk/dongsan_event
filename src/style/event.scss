@@ -20,6 +20,7 @@ body {
     margin: 0 auto;
     display: flex;
     font-size: 1em;
+    position: relative;
 
     .event-rullet {
         width: 70%;
@@ -123,6 +124,19 @@ body {
         }
     }
 
+    .modal {
+        width: 70%;
+        height: 70%;
+        background-color: red;
+        z-index: 10;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    .modal-active{
+        display: none;
+    }
 }
 
 
@@ -340,7 +354,7 @@ body {
         display: flex;
         font-size: 1em;
 
-        
+
         .event-result {
             width: 30%;
             height: 100%;
