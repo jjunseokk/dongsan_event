@@ -80,9 +80,9 @@ const Event = () => {
         setShowModal(false); // 모달 닫기
     };
     
-    const src = "https://www.youtube.com/embed/oQTLIlgOsnA?loop=1&autoplay=1&mute=0&playlist=oQTLIlgOsnA"
-    const src1 = "https://www.youtube.com/embed/0SS-MA1Yj8g?loop=1&autoplay=1&mute=0&playlist=0SS-MA1Yj8g"
-    const src2 = "https://www.youtube.com/embed/YXfzapAgLSo?loop=1&autoplay=1&mute=0&playlist=YXfzapAgLSo"
+    // const src = "https://www.youtube.com/embed/oQTLIlgOsnA?loop=1&autoplay=1&mute=0&playlist=oQTLIlgOsnA"
+    // const src1 = "https://www.youtube.com/embed/0SS-MA1Yj8g?loop=1&autoplay=1&mute=0&playlist=0SS-MA1Yj8g"
+    // const src2 = "https://www.youtube.com/embed/YXfzapAgLSo?loop=1&autoplay=1&mute=0&playlist=YXfzapAgLSo"
 
   
     return (
@@ -113,7 +113,7 @@ const Event = () => {
                 }}>뒤로가기</button>
             </div>
 
-            <div className={showModal ? "modal" : "modal modal-active"}>
+            {/* <div className={showModal ? "modal" : "modal modal-active"}>
                 <Swiper slidesPerView={1} navigation={true} modules={[Navigation]} className="mySwiper">
                     <SwiperSlide><iframe width="100%" height="500" src={isVideoPlaying? src : ""} title="돌아가고 싶은 그때 그 시절 2013~2016년도에 들었던 감성 힙합 &amp; 알앤비 노래 모음ㅣPLAYLISTㅣ플레이리스트 광고없음" /></SwiperSlide>
                     <SwiperSlide><iframe width="100%" height="500" src={isVideoPlaying? src1 : ""} title="수치 플레이" ></iframe></SwiperSlide>
@@ -126,7 +126,7 @@ const Event = () => {
                     <SwiperSlide>Slide 9</SwiperSlide>
                 </Swiper>
                 <button onClick={() => { handleCloseModal() }}>닫기</button>
-            </div>
+            </div> */}
         </div>
     )
 }
