@@ -16,26 +16,13 @@
 
 
 ### 🖥️ Webpage Link
-http://3.36.106.246:5000/
+운영 중 AWS 비용 떄문에 중단
 <br/>
 <br/>
 
 # 🌏 서비스 소개
-### 친환경 플랫폼으로 폐 골프공을 수거! 수거한 폐 골프공으로 친환경적인 그린볼로 탄생시켜드립니다!
+### 매일매일 하루 한번 룰렛을 돌려서 랜덤 포인트를 받고 광주동산교회 매점에서 쓰자!!
 
-<br/>
-
-<img width="100%" alt="스크린샷 2023-08-29 오후 3 22 55" src="https://github.com/jjunseokk/OursCollectingBalls/assets/87737169/f70e034f-4b03-4fbc-985c-7f3cbcc7dee2">
-
-매년 유실되는 골프공은 약 2억 5천개 이상입니다. 폐 골프공을 수거해서 그린볼로 다시 태어날 수 있는 그린볼이 5천 2백개 입니다.
-수거부터 업사이클까지 `🌐아워스`와 함께 하세요.
-<br/>
-<br/>
-![ezgif com-video-to-gif](https://github.com/jjunseokk/OursCollectingBalls/assets/87737169/9ddde61f-16b3-4c46-a1a4-6275a8ad26ee)
-
-🌱 폐골프공 수거를 예약할 수 있어요! 예약하시면 일정을 조율해 찾아갑니다! <br/>
-🌳 지구를 지키는 Ours 지구의 환경을 위해 같이 동참해요! <br/>
-🌲 골프 대회 캠페인도 함께 할 수 있어요 <br/>
 <br/>
 # 🌎 사용 스택 및 아키텍쳐
 | Part         | Stacks                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
