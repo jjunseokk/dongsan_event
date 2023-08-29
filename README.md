@@ -1,5 +1,4 @@
-![ezgif com-video-to-gif](https://github.com/jjunseokk/dongsan_event/assets/87737169/582444d5-cafc-4a2d-a59c-474ec3cd87dd)
-
+<img width="100%" alt="스크린샷 2023-08-29 오후 4 53 02" src="https://github.com/jjunseokk/dongsan_event/assets/87737169/798e38fe-ea37-4108-9bf2-d53b65fcf699">
 # 🎮 Overview
 
 ### 💻 Project
@@ -22,6 +21,7 @@
 
 # 👾 서비스 소개
 ### 매일매일 하루 한번 룰렛을 돌려서 랜덤 포인트를 받고 광주동산교회 매점에서 쓰자!!
+![ezgif com-video-to-gif](https://github.com/jjunseokk/dongsan_event/assets/87737169/582444d5-cafc-4a2d-a59c-474ec3cd87dd)
 
 <br/>
 # 🕹️ 사용 스택 및 아키텍쳐
