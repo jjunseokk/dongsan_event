@@ -1,13 +1,9 @@
-# 광주동산교회 룰렛 이벤트 페이지
-
 ![ezgif com-video-to-gif](https://github.com/jjunseokk/dongsan_event/assets/87737169/582444d5-cafc-4a2d-a59c-474ec3cd87dd)
 
-<img width="100%" alt="스크린샷 2023-08-29 오후 3 14 01" src="https://github.com/jjunseokk/OursCollectingBalls/assets/87737169/6fc055b5-5764-4ee1-b01a-156312c6d6fb">
-
-# 🌐 Overview
+# 🎮 Overview
 
 ### 💻 Project
-2023.05.01 ~ 2023.08.31
+2023.06.01 ~ 2023.06.31
 <br/>
 <br/>
 
