@@ -11,7 +11,7 @@
 
 | 이름                 | 포지션 & Github                                                                                                                                                                                    |
 | :------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 👩🏻‍💻 **박준석** | <a href="https://github.com/heewonkim-dev"><img alt="Github" src ="https://img.shields.io/badge/Frontend➡️Backend-@jjunseokk-181717.svg?&style=for-the-badge&logo=Github&logoColor=white"/></a> |
+| 👩🏻‍💻 **박준석** | <a href="https://github.com/jjunseokk"><img alt="Github" src ="https://img.shields.io/badge/Frontend➡️Backend-@jjunseokk-181717.svg?&style=for-the-badge&logo=Github&logoColor=white"/></a> |
 
 
 
